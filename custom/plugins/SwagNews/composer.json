@@ -1,0 +1,19 @@
+{
+  "name": "swag/news",
+  "description": "News update",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+    "version": "1.0.3",
+    "autoload": {
+    "psr-4": {
+      "SwagNews\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "SwagNews\\SwagNews",
+    "label": {
+      "de-DE": "News update",
+      "en-GB": "News update"
+    }
+  }
+}
