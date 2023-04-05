@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="SwagNews\Core\Content\News\SwagNewsDefinition">
+            <tag name="shopware.entity.definition" entity="swag_news"></tag>
+        </service>
+        <service id="SwagNews\Extension\CountryExtension">
+            <tag name="shopware.entity.extension" />
+        </service>
+        <service id="SwagNews\Extension\ProductExtension">
+            <tag name="shopware.entity.extension" />
+        </service>
+        <service id="SwagNews\Extension\CountryStateExtension">
+            <tag name="shopware.entity.extension" />
+        </service>
+        <service id="SwagNews\Extension\MediaExtension">
+            <tag name="shopware.entity.extension" />
+        </service>
+        <service id="SwagNews\Core\Api\DemoDataController" public="true">
+            <argument id="country.repository" type="service" />
+            <argument id="swag_news.repository" type="service" />
+        </service>
+        <service id="SwagNews\Core\Content\News\Aggregate\SwagNewsTranslation\SwagNewsTranslationDefinition">
+            <tag name="shopware.entity.definition" entity="swag_news_translation"></tag>
+        </service>
+    </services>
+</container>
