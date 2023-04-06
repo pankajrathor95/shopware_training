@@ -3,7 +3,7 @@
   "description": "News update",
   "type": "shopware-platform-plugin",
   "license": "proprietary",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "autoload": {
     "psr-4": {
       "SwagNews\\": "src/"

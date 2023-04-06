@@ -1,0 +1,251 @@
+git: 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
+
+https://docs.google.com/document/d/16H6kVJdRcoaakX5vMSokyjsClto1mpojG_Ra9GrcDIc/edit
+
+####################### DATE: 27-03-2023 #######################
+REQUIRMENT:
+	- node 16+ & npm 8+
+	- sudo apt-get install php8.1-xdebug
+# Download Production version: https://www.shopware.com/en/changelog/
+
+# 1. INSTALL SHOPWARE 6 have 2 Github repository 
+	# https://github.com/shopware/development
+	# https://github.com/shopware/platform
+	
+	# Go to link and download source code : https://github.com/shopware/development/releases/tag/v6.4.11.1
+	# Go to link and download source code : https://github.com/shopware/platform/releases/tag/v6.4.20.0
+
+# 2. Extract development source code to /html folder then extract platform.zip to /html/project/platform folder
+
+# 3. Edit your virtual host file
+******OR**Create seprate file*****
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/shopware.com.conf
+sudo a2ensite shopware.com.conf
+# sudo nano /etc/apache2/sites-available/shopware.com.conf
+____________________________________________________________________
+<VirtualHost 127.0.0.2:80> 
+ ServerName "local.shopware.com" 
+ DocumentRoot /var/www/html/shopware/public
+
+ <Directory /var/www/html/shopware/public
+  Options Indexes FollowSymLinks MultiViews 
+  AllowOverride All 
+  Order allow,deny 
+  allow from all 
+ </Directory> 
+ 
+ ErrorLog ${APACHE_LOG_DIR}/shopware-platform.error.log 
+ CustomLog ${APACHE_LOG_DIR}/shopware-platform.access.log combined 
+ LogLevel debug 
+</VirtualHost>
+____________________________________________________________________
+# 4. sudo nano /etc/hosts
+	127.0.0.x local.shopware.com
+     # sudo systemctl restart apache2
+
+# 5. open terminal in project directory execute command is here below
+	# php bin/setup
+	# http://local.shopware.com
+	
+# 6. Set Permission
+setfacl -m u:www-data:r config/jwt/public.pem
+setfacl -m u:www-data:r config/jwt/private.pem
+sudo a2enmod rewrite
+systemctl restart apache2
+
+# 7. For Access Admin Panel /admin
+	# ./psh.phar administration:watch
+	# username: admin
+	# password: shopware
+
+#################### DATE: 28-03-2023 #####################
+
+Extensions
+ --- Plugins
+    -Plugin Base Guide : https://developer.shopware.com/docs/v/6.4/guides/plugins/plugins/plugin-base-guide
+       - Create Plugin using command
+      	# php bin/console plugin:create SwagBasicExample
+      	
+      	- Create Plugin manually 
+	  project_dir/custom/plugins
+	   	- SwagBasicExample
+	        	- src
+	           		- Resources
+	            			- config
+	              				- services.xml
+	            		- SwagBasicExample.php
+	        	- composer.json
+	        	
+- php bin/console plugin:list
+- php bin/console plugin:refresh
+- php bin/console plugin:install --activate SwagBasicExample
+- php bin/console plugin:uninstall BasicExample
+
+ --- Plugins for Symfony developers
+	- I have installed "Shopware 6 toolbox" extension in PhpStorm
+ --- Create Plugin
+ 	- Add Plugin configuration
+ 	- Use Plugin configuration
+ 		-get(BundleName.config.configName)
+ 	- Database migrations
+ 	
+######################### DATE: 29-03-2023 #########################
+
+ - Database migrations	 
+ 	# Migration file name must be follow some convention 
+ 		Name: Migration353452Description.php
+ 			- each migration file has to start with Migration
+ 			- next is timestamp 
+ 			- last one is descriptive name for your migration
+	# Create Migration file in Plugin
+		# bin/console database:create-migration -p SwagBasicExample --name ExampleDescription
+		# Migration Class
+			# Write SQL Query for Add,Edit Table in update() function 
+			# Write SQL Query for delete data and table in updateDestructive()  
+		# run command in terminal for create SCHEMA {platform/src/schema}
+			# bin/console dal:create:schema
+			# bin/console database:migrate SwagBasicExample --all
+	## NOTE: Migration schema execute on plugin install and plugin update 
+ 
+ - Dependency injection
+ - Listening to events
+ - Add custom service
+ - Adjusting a service
+ - Add plugin dependencies
+ - Add custom CLI commands
+ - Add scheduled task
+ 
+######################### DATE: 30-03-2023 ################################
+ 
+https://developer.shopware.com/docs/v/6.4/guides/plugins/plugins/checkout/document
+
+ - Using custom fields of type media
+ - Adding NPM dependencies
+ - Adding composer dependencies
+ - Plugin lifecycle methods
+ 
+ - Checkout
+    - Cart
+      - Add cart collector/processor
+      - Add cart items
+      - Add cart discounts
+      - Add cart validator
+      - Change of item in cart
+      - customize price calculation
+      
+ - Document
+    - add custom document
+    - add custom document type
+    
+#################### DATE: 31-03-2023 ######################
+
+ - Order
+    - Using the state machine
+    - Listen to order changes
+ - Payment
+    - Add Payment plugin
+    - Customize payment provider
+ - Content
+    - CMS
+      - Add CMS block
+      - Add CMS element
+      - Add CMS element via AdminExtensionSDK
+      - Add Data to cms element
+    - Mail
+      - Add data to mails
+      - Add mail template
+      
+#################### DATE: 03-04-2023 ###################### 
+
+- Install shopware using docker [WATCH 10:05 START 10:30 END ]
+	- install docker # https://docs.docker.com/engine/install/ubuntu/
+	- git clone https://github.com/shopware/development.git
+	- git clone https://github.com/shopware/platform.git
+	- cd developement
+	- Permission to docker
+		# sudo chmod 666 /var/run/docker.sock
+	# ./psh.phar docker:start
+
+- Create and Install Plugin
+	# bin/console plugin:create SwagShopFinder
+	# bin/console plugin:refresh
+	# bin/console plugin:install --activate SwagShopFinder
+	# bin/console cache:clear
+	
+   	- Create Entity
+   		Create definition class
+	   	   - SwagShopFinder\Core\Content\ShopFinder\ShopFinderDefinition
+	   	Create collection class
+	   	   - SwagShopFinder\Core\Content\ShopFinder\ShopFinderCollection
+		Create entity class
+	   	   - SwagShopFinder\Core\Content\ShopFinder\ShopFinderEntity
+	
+	- Add definition in service
+		<service id="definition class">
+			<tag name="shopware.entity.definition entity="entity_name"/>
+		</service>
+	
+	- Create migration
+		# bin/console database:create-migration -p SwagShopFinder	
+	- To create entities from the definition
+		# bin/console dal:create:entities
+
+	- To create schema from the entity
+		# bin/console dal:create:schema
+		
+	-Before using this command you have to validate your definition using the below command
+		# bin/console dal:validate
+		
+#################### DATE: 04-04-2023 ###################### 
+
+- setup git and push daily work with different branches
+- Create definition
+- modify migration query
+- Adding data associations
+- Resolved issue during migration
+- check validation using dal:validate
+
+#################### DATE: 05-04-2023 ###################### 
+add on git
+	- custom/plugins/SwagNews/src/Extension
+	- custom/plugins/SwagNews/sr
+	# dal:validate [done]
+	
+Learn about controller
+i have learn about config
+i have Learn about translation definition
+
+#################### DATE: 06-04-2023 ###################### 
+
+Read Shopware 6 documentation of backend configuration
+- Catalogues
+  - Product
+    - learn product listing features
+    - create physical product
+    - create physical product with variants
+    - set advance price
+    - set new product layout to product 
+    - change product url from seo section of product
+    - add cross selling product using manual selection or dynamic product group
+    - register new customer
+    - place order
+    
+  - Reviews
+    - added review from storefront and added comment on that review	
+  
+  - Categories
+    - Add main Category
+    	- add category before and after main category  
+    	- add sub categories in main category
+    - create different type of category
+    - create dynamic product groups 
+ 
+  - Manufacturers
+    - create manufacturer and add in product 
+    
+Tomorrow's plan
+Continue read shopware 6 documentation of backend configuration
+
+
+    
+

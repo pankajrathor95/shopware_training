@@ -34,7 +34,7 @@ class SwagNewsEntity extends Entity
     protected $active;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $countryId;
 
@@ -49,7 +49,7 @@ class SwagNewsEntity extends Entity
     protected $imageId;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $productId;
 
@@ -66,7 +66,7 @@ class SwagNewsEntity extends Entity
     /**
      * @var MediaEntity|null
      */
-    protected $image;
+    protected $media;
 
     /**
      * @var ProductEntity|null
@@ -123,12 +123,12 @@ class SwagNewsEntity extends Entity
         $this->active = $active;
     }
 
-    public function getCountryId(): string
+    public function getCountryId(): ?string
     {
         return $this->countryId;
     }
 
-    public function setCountryId(string $countryId): void
+    public function setCountryId(?string $countryId): void
     {
         $this->countryId = $countryId;
     }
@@ -153,12 +153,12 @@ class SwagNewsEntity extends Entity
         $this->imageId = $imageId;
     }
 
-    public function getProductId(): string
+    public function getProductId(): ?string
     {
         return $this->productId;
     }
 
-    public function setProductId(string $productId): void
+    public function setProductId(?string $productId): void
     {
         $this->productId = $productId;
     }
@@ -183,14 +183,14 @@ class SwagNewsEntity extends Entity
         $this->countryState = $countryState;
     }
 
-    public function getImage(): ?MediaEntity
+    public function getMedia(): ?MediaEntity
     {
-        return $this->image;
+        return $this->media;
     }
 
-    public function setImage(?MediaEntity $image): void
+    public function setMedia(?MediaEntity $media): void
     {
-        $this->image = $image;
+        $this->media = $media;
     }
 
     public function getProduct(): ?ProductEntity

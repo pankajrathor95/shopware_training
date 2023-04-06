@@ -50,13 +50,13 @@ class SwagNewsDefinition extends EntityDefinition
             (new FkField('country_id', 'countryId', CountryDefinition::class))->addFlags(new ApiAware()),
             (new FkField('country_state_id', 'countryStateId', CountryStateDefinition::class))->addFlags(new ApiAware()),
             (new FkField('image_id', 'imageId', MediaDefinition::class,'id'))->addFlags(new ApiAware()),
-            (new FkField('product_id', 'productId', ProductDefinition::class))->addFlags(new ApiAware(), new Required()),
-            (new ReferenceVersionField(ProductDefinition::class))->addFlags(new ApiAware(), new Required()),
+            (new FkField('product_id', 'productId', ProductDefinition::class))->addFlags(new ApiAware()),
+            (new ReferenceVersionField(ProductDefinition::class))->addFlags(new ApiAware()),
 
-            (new ManyToOneAssociationField('country', 'country_id', CountryDefinition::class, 'id', false)),
-            (new ManyToOneAssociationField('countryState', 'country_state_id', CountryStateDefinition::class, 'id', false)),
-            (new ManyToOneAssociationField('image', 'image_id', MediaDefinition::class, 'id', false)),
-            new ManyToOneAssociationField('product', 'product_id', ProductDefinition::class, 'id', false)
+            (new ManyToOneAssociationField('country', 'country_id', CountryDefinition::class, 'id')),
+            (new ManyToOneAssociationField('countryState', 'country_state_id', CountryStateDefinition::class, 'id')),
+            (new ManyToOneAssociationField('media', 'image_id', MediaDefinition::class, 'id')),
+            new ManyToOneAssociationField('product', 'product_id', ProductDefinition::class, 'id')
         ]);
     }
 }
